@@ -3,11 +3,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useRegisterUser } from "../../hooks/useRegisterUser";
 
-/**
- * RegisterForm component for new user registration.
- * It uses Formik for form state management and Yup for validation,
- * and integrates with the useRegisterUserTan hook for API interaction.
- */
 export default function RegisterForm() {
   const { mutateAsync, data, error, isPending } = useRegisterUser();
   const [showPassword, setShowPassword] = useState(false);
@@ -66,12 +61,11 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-gray-800 rounded-lg shadow-xl text-white font-inter mt-8">
-      <h2 className="text-3xl font-extrabold mb-8 text-center text-indigo-400">
-        Create Account
+    <div className="p-6 max-w-md mx-auto bg-gray-900 rounded-lg shadow-xl text-white font-inter mt-8">
+      <h2 className="text-3xl font-extrabold mb-8 text-center text-emerald-400">
+        Create a New Account
       </h2>
       <form onSubmit={formik.handleSubmit} className="space-y-6">
-        {/* First Name Input Group */}
         <div>
           <label
             htmlFor="firstName"
@@ -86,7 +80,7 @@ export default function RegisterForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.firstName}
-            className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition duration-200 ease-in-out"
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-base transition duration-200 ease-in-out"
             placeholder="Enter your first name"
           />
           {formik.touched.firstName && formik.errors.firstName && (
@@ -96,7 +90,6 @@ export default function RegisterForm() {
           )}
         </div>
 
-        {/* Last Name Input Group */}
         <div>
           <label
             htmlFor="lastName"
@@ -111,7 +104,7 @@ export default function RegisterForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.lastName}
-            className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition duration-200 ease-in-out"
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-base transition duration-200 ease-in-out"
             placeholder="Enter your last name"
           />
           {formik.touched.lastName && formik.errors.lastName && (
@@ -121,7 +114,6 @@ export default function RegisterForm() {
           )}
         </div>
 
-        {/* Email Input Group */}
         <div>
           <label
             htmlFor="email"
@@ -136,7 +128,7 @@ export default function RegisterForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
-            className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition duration-200 ease-in-out"
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-base transition duration-200 ease-in-out"
             placeholder="Enter your email"
           />
           {formik.touched.email && formik.errors.email && (
@@ -144,7 +136,6 @@ export default function RegisterForm() {
           )}
         </div>
 
-        {/* Phone Number Input Group */}
         <div>
           <label
             htmlFor="phoneNumbers"
@@ -159,7 +150,7 @@ export default function RegisterForm() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.phoneNumbers}
-            className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition duration-200 ease-in-out"
+            className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-base transition duration-200 ease-in-out"
             placeholder="Enter your phone number"
           />
           {formik.touched.phoneNumbers && formik.errors.phoneNumbers && (
@@ -169,7 +160,6 @@ export default function RegisterForm() {
           )}
         </div>
 
-        {/* Password Input Group with Toggle */}
         <div>
           <label
             htmlFor="password"
@@ -185,7 +175,7 @@ export default function RegisterForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.password}
-              className="mt-1 block w-full px-4 py-2 pr-10 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition duration-200 ease-in-out"
+              className="mt-1 block w-full px-4 py-2 pr-10 bg-gray-800 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-base transition duration-200 ease-in-out"
               placeholder="Enter your password"
             />
             <button
@@ -204,7 +194,6 @@ export default function RegisterForm() {
           )}
         </div>
 
-        {/* Confirm Password Input Group */}
         <div>
           <label
             htmlFor="confirmPassword"
@@ -220,7 +209,7 @@ export default function RegisterForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.confirmPassword}
-              className="mt-1 block w-full px-4 py-2 pr-10 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-base transition duration-200 ease-in-out"
+              className="mt-1 block w-full px-4 py-2 pr-10 bg-gray-800 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-base transition duration-200 ease-in-out"
               placeholder="Confirm your password"
             />
             <button
@@ -243,11 +232,10 @@ export default function RegisterForm() {
           )}
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isPending}
-          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200 ease-in-out transform hover:scale-105"
+          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-200 ease-in-out transform hover:scale-105"
         >
           {isPending ? "Registering..." : "Register"}
         </button>
