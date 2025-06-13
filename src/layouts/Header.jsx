@@ -2,54 +2,100 @@
 import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../auth/AuthProvider";
+import { Store, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Header() {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, isAuthenticated } = useContext(AuthContext);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
-    <header className="w-full bg-gray-900 text-white p-4 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="text-xl font-bold text-indigo-400">
-          My QuickStock App
-        </div>
-        <nav className="space-x-6 flex items-center">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive
-                ? "text-indigo-300 font-semibold"
-                : "hover:text-indigo-200 transition-colors"
-            }
-          >
-            Home
-          </NavLink>
+    <header className="w-full bg-gray-900 text-white p-4 shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto flex h-16 items-center justify-between">
+        {/* Logo and App Name - Always present, links to root */}
+        <Link to="/" className="flex items-center gap-2">
+          <Store className="h-6 w-6 text-emerald-500" />
+          <span className="text-xl font-bold text-white">QuickStock</span>
+        </Link>
 
-          {!user && (
+        <nav className="hidden md:flex gap-6 items-center">
+          {!isAuthenticated ? (
+            <>
+              <Link
+                to="#benefits"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("benefits");
+                }}
+                className="text-sm font-medium hover:text-emerald-500 transition-colors"
+              >
+                Benefits
+              </Link>
+              <Link
+                to="#features"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("features");
+                }}
+                className="text-sm font-medium hover:text-emerald-500 transition-colors"
+              >
+                Features
+              </Link>
+              <Link
+                to="#cta"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("cta");
+                }}
+                className="text-sm font-medium hover:text-emerald-500 transition-colors"
+              >
+                Get Started
+              </Link>
+            </>
+          ) : (
             <>
               <NavLink
-                to="/login"
+                to="/dashboard"
                 className={({ isActive }) =>
                   isActive
                     ? "text-indigo-300 font-semibold"
                     : "hover:text-indigo-200 transition-colors"
                 }
               >
-                Login
-              </NavLink>
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-indigo-300 font-semibold"
-                    : "hover:text-indigo-200 transition-colors"
-                }
-              >
-                Register
+                Dashboard
               </NavLink>
             </>
           )}
+        </nav>
 
-          {user && (
+        <div className="flex items-center gap-4">
+          {!isAuthenticated ? (
+            <>
+              <Link to="/login" className="hidden md:flex">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600 rounded-md"
+                >
+                  Log in
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button
+                  size="sm"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-md"
+                >
+                  Sign Up
+                </Button>
+              </Link>
+            </>
+          ) : (
             <div className="flex items-center space-x-4">
               <span className="text-gray-300">
                 Welcome,{" "}
@@ -57,15 +103,15 @@ export default function Header() {
                   {user.firstName}
                 </span>
               </span>
-              <Link
+              <Button
                 onClick={logout}
-                className="px-3 py-1 bg-red-600 rounded-md hover:bg-red-700 transition-colors text-sm font-medium"
+                className="bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-medium"
               >
                 Logout
-              </Link>
+              </Button>
             </div>
           )}
-        </nav>
+        </div>
       </div>
     </header>
   );
