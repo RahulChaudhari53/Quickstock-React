@@ -1,12 +1,12 @@
-// src/layouts/Header.jsx
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/AuthProvider";
-import { Store, ArrowRight } from "lucide-react";
+import { Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
   const { user, logout, isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -15,10 +15,14 @@ export default function Header() {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <header className="w-full bg-gray-900 text-white p-4 shadow-lg sticky top-0 z-50">
       <div className="container mx-auto flex h-16 items-center justify-between">
-        {/* Logo and App Name - Always present, links to root */}
         <Link to="/" className="flex items-center gap-2">
           <Store className="h-6 w-6 text-emerald-500" />
           <span className="text-xl font-bold text-white">QuickStock</span>
@@ -104,7 +108,7 @@ export default function Header() {
                 </span>
               </span>
               <Button
-                onClick={logout}
+                onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-medium"
               >
                 Logout
