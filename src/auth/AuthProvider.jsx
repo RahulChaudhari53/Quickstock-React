@@ -41,9 +41,18 @@ const AuthContextProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  const isAdmin = user?.role === "admin";
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, isAuthenticated: user !== null }}
+      value={{
+        user,
+        loading,
+        login,
+        logout,
+        isAuthenticated: user !== null,
+        isAdmin,
+      }}
     >
       {children}
     </AuthContext.Provider>
