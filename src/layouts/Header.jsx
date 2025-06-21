@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/AuthProvider";
-import { Store } from "lucide-react";
+import { Store, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
-  const { user, logout, isAuthenticated } = useContext(AuthContext);
+  const { user, logout, isAuthenticated, isAdmin } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const scrollToSection = (id) => {
@@ -74,6 +74,18 @@ export default function Header() {
               >
                 Dashboard
               </NavLink>
+              {isAdmin && (
+                <NavLink
+                  to="/admin/users"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-red-300 font-semibold"
+                      : "hover:text-red-200 transition-colors"
+                  }
+                >
+                  Admin
+                </NavLink>
+              )}
             </>
           )}
         </nav>
