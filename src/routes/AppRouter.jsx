@@ -10,6 +10,7 @@ import AdminRoute from "./admin/AdminRoute";
 import LandingPage from "../pages/LandingPage";
 import { AuthContext } from "../auth/AuthProvider";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminUserPage from "../pages/admin/AdminUserPage";
 
 export default function AppRouter() {
   const { user, loading } = useContext(AuthContext);
@@ -69,6 +70,7 @@ export default function AppRouter() {
           <Route path="/admin/*" element={<AdminRoute />}>
             <Route index element={<Navigate to="users" replace />} />
             <Route path="users" element={<AdminDashboard />} />
+            <Route path="users/:id" element={<AdminUserPage />} />
             <Route
               path="*"
               element={
