@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Homepage from "../pages/HomePage";
 import Login from "../pages/Login";
@@ -6,8 +6,10 @@ import Register from "../pages/Register";
 import MainLayout from "../layouts/MainLayout";
 import GuestRoute from "./GuestRoute";
 import NormalUserRoute from "./NormalUserRoute";
+import AdminRoute from "./admin/AdminRoute";
 import LandingPage from "../pages/LandingPage";
 import { AuthContext } from "../auth/AuthProvider";
+import AdminDashboard from "../pages/admin/AdminDashboard";
 
 export default function AppRouter() {
   const { user, loading } = useContext(AuthContext);
@@ -60,6 +62,18 @@ export default function AppRouter() {
               element={
                 <div className="text-white text-2xl p-8 bg-gray-800 rounded-lg shadow-md">
                   404 Not Found (User Area)
+                </div>
+              }
+            />
+          </Route>
+          <Route path="/admin/*" element={<AdminRoute />}>
+            <Route index element={<Navigate to="users" replace />} />
+            <Route path="users" element={<AdminDashboard />} />
+            <Route
+              path="*"
+              element={
+                <div className="text-white text-2xl p-8 bg-gray-800 rounded-lg shadow-md">
+                  404 Not Found (Admin Area)
                 </div>
               }
             />
