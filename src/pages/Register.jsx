@@ -1,3 +1,4 @@
+// pages/Register.jsx
 import RegisterForm from "../components/auth/registerForm";
 
 export default function Register() {

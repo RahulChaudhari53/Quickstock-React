@@ -1,3 +1,5 @@
+// hooks/useRegisterUser.js
+
 import { useMutation } from "@tanstack/react-query";
 import { registerUserService } from "../services/authService";
 import { toast } from "react-toastify";

@@ -1,3 +1,4 @@
+// layouts/Footer.jsx
 import { Link } from "react-router-dom";
 import { Store } from "lucide-react"; // Make sure you have this icon or adjust accordingly
 

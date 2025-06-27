@@ -1,3 +1,4 @@
+// pages/LandingPage.jsx
 import {
   ArrowRight,
   BarChart3,

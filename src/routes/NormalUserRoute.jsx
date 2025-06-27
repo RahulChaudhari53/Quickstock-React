@@ -1,6 +1,8 @@
+// routes/NormalUserRoute.jsx
+
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "../auth/authProvider";
+import { AuthContext } from "../auth/AuthProvider";
 
 export default function NormalUserRoute() {
   const { user, loading } = useContext(AuthContext);

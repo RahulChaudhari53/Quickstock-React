@@ -1,3 +1,4 @@
+// src/api/authApi.js
 import axios from "./api";
 
 export const registerUserApi = (data) => axios.post("/users/signup", data);

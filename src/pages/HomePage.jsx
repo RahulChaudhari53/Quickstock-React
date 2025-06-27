@@ -1,3 +1,4 @@
+// pages/HomePage.jsx
 export default function Homepage() {
   return (
     <div className="text-white text-3xl font-bold p-8 bg-gray-800 rounded-lg shadow-md">

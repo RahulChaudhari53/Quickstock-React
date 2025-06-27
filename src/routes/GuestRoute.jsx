@@ -1,6 +1,7 @@
+// routes/GuestRoute.jsx
 import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthContext } from "../auth/authProvider";
+import { AuthContext } from "../auth/AuthProvider";
 
 /**
  * GuestRoute component acts as a route guard.
@@ -27,4 +28,3 @@ export default function GuestRoute() {
   return <Outlet />;
 }
 
-// shop_owner

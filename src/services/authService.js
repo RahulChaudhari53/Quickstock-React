@@ -1,3 +1,4 @@
+// services/admin/authService.js
 import { loginUserApi, registerUserApi } from "../api/authApi";
 
 export const registerUserService = async (formData) => {

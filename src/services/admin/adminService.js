@@ -1,3 +1,4 @@
+// services/admin/adminService.js
 import {
   getAllUserApi,
   getUserByIdApi,
