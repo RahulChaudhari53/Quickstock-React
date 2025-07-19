@@ -2,7 +2,17 @@
 import { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/AuthProvider";
-import { Store, ArrowRight } from "lucide-react";
+import {
+  Store,
+  User as UserIcon,
+  LayoutGrid,
+  Tag,
+  Users,
+  Package,
+  ShoppingCart,
+  ShoppingBag,
+  BarChart3,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
@@ -75,6 +85,91 @@ export default function Header() {
               >
                 Dashboard
               </NavLink>
+
+              {!isAdmin && (
+                <>
+                  <NavLink
+                    to="/user/categories"
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 ${
+                        isActive
+                          ? "text-emerald-400 font-semibold"
+                          : "hover:text-emerald-300 transition-colors"
+                      }`
+                    }
+                  >
+                    <Tag size={16} />
+                    Categories
+                  </NavLink>
+
+                  <NavLink
+                    to="/user/suppliers"
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 ${
+                        isActive
+                          ? "text-emerald-400 font-semibold"
+                          : "hover:text-emerald-300"
+                      }`
+                    }
+                  >
+                    <Users size={16} />
+                    Suppliers
+                  </NavLink>
+
+                  <NavLink
+                    to="/user/products"
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 ${
+                        isActive
+                          ? "text-emerald-400 font-semibold"
+                          : "hover:text-emerald-300"
+                      }`
+                    }
+                  >
+                    <Package size={16} /> Products
+                  </NavLink>
+
+                  <NavLink
+                    to="/user/purchases"
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 ${
+                        isActive
+                          ? "text-emerald-400 font-semibold"
+                          : "hover:text-emerald-300"
+                      }`
+                    }
+                  >
+                    <ShoppingCart size={16} /> Purchases
+                  </NavLink>
+
+                  <NavLink
+                    to="/user/sales"
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 ${
+                        isActive
+                          ? "text-emerald-400 font-semibold"
+                          : "hover:text-emerald-300"
+                      }`
+                    }
+                  >
+                    <ShoppingBag size={16} /> Sales
+                  </NavLink>
+
+                  <NavLink
+                    to="/user/stock"
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 ${
+                        isActive
+                          ? "text-emerald-400 font-semibold"
+                          : "hover:text-emerald-300"
+                      }`
+                    }
+                  >
+                    <BarChart3 size={16} /> Stock
+                  </NavLink>
+                </>
+              )}
+
               {isAdmin && (
                 <NavLink
                   to="/admin/users"
@@ -114,12 +209,21 @@ export default function Header() {
             </>
           ) : (
             <div className="flex items-center space-x-4">
-              <span className="text-gray-300">
+              {/* <span className="text-gray-300">
                 Welcome,{" "}
                 <span className="font-semibold text-indigo-200">
                   {user.firstName}
                 </span>
-              </span>
+              </span> */}
+              <Link
+                to="/user/profile"
+                className="flex items-center gap-2 hover:text-emerald-400 transition"
+              >
+                <UserIcon size={20} />
+                {/* <span>
+                  {user.firstName} {user.lastName}
+                </span> */}
+              </Link>
               <Button
                 onClick={handleLogout}
                 className="bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-medium"
