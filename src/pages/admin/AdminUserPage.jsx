@@ -65,7 +65,12 @@ export default function AdminUserPage() {
         {/* Phone Numbers */}
         <div className="flex items-center gap-3 p-4 bg-gray-800 rounded-md shadow-sm">
           <Phone className="h-5 w-5 text-emerald-400" />
-          <p className="text-lg">{user.phoneNumbers.join(", ")}</p>
+          <p className="text-lg">
+            {" "}
+            {[user.primaryPhone, user.secondaryPhone]
+              .filter(Boolean)
+              .join(", ")}
+          </p>
         </div>
 
         {/* Role */}
