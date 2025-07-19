@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { useRegisterUser } from "../../hooks/useRegisterUser";
 
 export default function RegisterForm() {
-  const { mutateAsync, data, error, isPending } = useRegisterUser();
+  const { mutateAsync, isPending } = useRegisterUser();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -23,7 +23,7 @@ export default function RegisterForm() {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    phoneNumbers: Yup.string().required("Phone number is required"),
+    primaryPhone: Yup.string().required("Phone number is required"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
@@ -37,7 +37,7 @@ export default function RegisterForm() {
       firstName: "",
       lastName: "",
       email: "",
-      phoneNumbers: "",
+      primaryPhone: "",
       password: "",
       confirmPassword: "",
     },
@@ -139,24 +139,24 @@ export default function RegisterForm() {
 
         <div>
           <label
-            htmlFor="phoneNumbers"
+            htmlFor="primaryPhone"
             className="block text-sm font-medium text-gray-300 mb-1"
           >
             Phone Number
           </label>
           <input
-            id="phoneNumbers"
+            id="primaryPhone"
             type="text"
-            name="phoneNumbers"
+            name="primaryPhone"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.phoneNumbers}
+            value={formik.values.primaryPhone}
             className="mt-1 block w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 sm:text-base transition duration-200 ease-in-out"
             placeholder="Enter your phone number"
           />
-          {formik.touched.phoneNumbers && formik.errors.phoneNumbers && (
+          {formik.touched.primaryPhone && formik.errors.primaryPhone && (
             <p className="mt-2 text-red-400 text-sm">
-              {formik.errors.phoneNumbers}
+              {formik.errors.primaryPhone}
             </p>
           )}
         </div>
@@ -240,17 +240,11 @@ export default function RegisterForm() {
         >
           {isPending ? "Registering..." : "Register"}
         </button>
-
-        {error && (
-          <p className="mt-4 text-red-400 text-center text-sm">
-            {error.message}
-          </p>
-        )}
-        {data && (
+        {/* {data && (
           <p className="mt-4 text-green-400 text-center text-sm">
             {data.message}
           </p>
-        )}
+        )} */}
       </form>
     </div>
   );
