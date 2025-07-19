@@ -3,11 +3,6 @@ import { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { AuthContext } from "../auth/AuthProvider";
 
-/**
- * GuestRoute component acts as a route guard.
- * It allows access to its child routes ONLY if the user is NOT authenticated.
- * If the user is authenticated, it redirects them based on their role or to the homepage.
- */
 export default function GuestRoute() {
   const { user, loading } = useContext(AuthContext);
 
@@ -17,7 +12,7 @@ export default function GuestRoute() {
     );
   }
 
-  if (user?.role === "normal") {
+  if (user?.role === "shop_owner") {
     return <Navigate to="/user/product" replace />;
   }
 
