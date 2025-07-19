@@ -36,7 +36,7 @@ export const useMakeAdmin = () => {
     onSuccess: (data) => {
       toast.success(data.message || "User promoted to admin successfully!");
       queryClient.invalidateQueries(["admin_users"]);
-      queryClient.invalidateQueries(["admin_ser", data.data._id]);
+      queryClient.invalidateQueries(["admin_user", data.data._id]);
     },
     onError: (err) => {
       toast.error(err.message || "Failed to promote user to admin.");
