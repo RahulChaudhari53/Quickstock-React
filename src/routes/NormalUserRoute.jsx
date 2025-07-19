@@ -17,7 +17,7 @@ export default function NormalUserRoute() {
     return <Navigate to="/login" replace />;
   }
 
-  if (user.role !== "normal") {
+  if (user.role !== "shop_owner") {
     return <Navigate to="/" replace />;
   }
 
