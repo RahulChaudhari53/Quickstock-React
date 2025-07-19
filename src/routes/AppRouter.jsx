@@ -20,6 +20,20 @@ import AdminUserPage from "../pages/admin/AdminUserPage";
 
 // Shop Owner Pages
 import UserProfilePage from "../pages/UserProfilePage";
+import CategoriesPage from "../pages/CategoriesPage";
+import SuppliersPage from "../pages/SuppliersPage";
+import SupplierDetailPage from "../pages/SupplierDetailPage";
+import ProductsPage from "../pages/ProductsPage";
+import ProductDetailPage from "../pages/ProductDetailPage";
+import PurchasesPage from "../pages/PurchasesPage";
+import CreatePurchasePage from "../pages/CreatePurchasePage";
+import EditPurchasePage from "../pages/EditPurchasePage";
+import PurchaseDetailPage from "../pages/PurchaseDetailPage";
+import SalesPage from "../pages/SalesPage";
+import SaleDetailPage from "../pages/SaleDetailPage";
+import PointOfSalePage from "../pages/PointOfSalePage";
+import StockPage from "../pages/StockPage";
+import StockHistoryPage from "../pages/StockHistoryPage";
 
 export default function AppRouter() {
   const { user, loading } = useContext(AuthContext);
@@ -54,22 +68,22 @@ export default function AppRouter() {
           {/* --- Shop Owner (Normal User) Protected Routes --- */}
           <Route path="/user/*" element={<NormalUserRoute />}>
             <Route path="profile" element={<UserProfilePage />} />
-
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="suppliers" element={<SuppliersPage />} />
+            <Route path="suppliers/:id" element={<SupplierDetailPage />} />
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="products/:id" element={<ProductDetailPage />} />
+            <Route path="purchases" element={<PurchasesPage />} />
+            <Route path="purchases/create" element={<CreatePurchasePage />} />
+            <Route path="purchases/edit/:id" element={<EditPurchasePage />} />
+            <Route path="purchases/:id" element={<PurchaseDetailPage />} />
+            <Route path="sales" element={<SalesPage />} />
+            <Route path="sales/:id" element={<SaleDetailPage />} />
+            <Route path="pos" element={<PointOfSalePage />} />
+            <Route path="stock" element={<StockPage />} />
             <Route
-              path="product"
-              element={
-                <div className="text-white text-2xl p-8 bg-gray-800 rounded-lg shadow-md">
-                  My Product Page (Protected)
-                </div>
-              }
-            />
-            <Route
-              path="order"
-              element={
-                <div className="text-white text-2xl p-8 bg-gray-800 rounded-lg shadow-md">
-                  My Order Page (Protected)
-                </div>
-              }
+              path="stock/history/:productId"
+              element={<StockHistoryPage />}
             />
             <Route
               path="*"
