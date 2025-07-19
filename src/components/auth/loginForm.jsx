@@ -6,7 +6,7 @@ import { useLoginUser } from "../../hooks/useLoginUser";
 import { Link } from "react-router-dom";
 
 export default function LoginForm() {
-  const { mutate, error, isPending } = useLoginUser();
+  const { mutate, isPending } = useLoginUser();
   const [showPassword, setShowPassword] = useState(false);
 
   const validationSchema = Yup.object({
@@ -105,12 +105,6 @@ export default function LoginForm() {
         >
           {isPending ? "Logging in..." : "Login"}
         </button>
-
-        {error && (
-          <p className="mt-4 text-red-400 text-center text-sm">
-            {error.message}
-          </p>
-        )}
       </form>
     </div>
   );
