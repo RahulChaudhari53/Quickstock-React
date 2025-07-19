@@ -7,10 +7,10 @@ export default function MainLayout() {
   return (
     <div className="w-full min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow p-4 md:p-8 flex items-center justify-center">
+      <main className="flex-grow p-4 md:p-8 flex">
         <Outlet />
       </main>
-      <Footer />
+      <Footer className="flex-shrink-0" />
     </div>
   );
 }
