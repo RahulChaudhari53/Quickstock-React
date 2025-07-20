@@ -31,6 +31,9 @@ import PurchasesPage from "../pages/PurchasesPage";
 import CreatePurchasePage from "../pages/CreatePurchasePage";
 import EditPurchasePage from "../pages/EditPurchasePage";
 import PurchaseDetailPage from "../pages/PurchaseDetailPage";
+import SalesPage from "../pages/SalesPage";
+import SaleDetailPage from "../pages/SaleDetailPage";
+import PointOfSalePage from "../pages/PointOfSalePage";
 import StockPage from "../pages/StockPage";
 import StockHistoryPage from "../pages/StockHistoryPage";
 
@@ -85,6 +88,9 @@ export default function AppRouter() {
               path="/user/purchases/:id"
               element={<PurchaseDetailPage />}
             />
+            <Route path="/user/sales" element={<SalesPage />} />
+            <Route path="/user/sales/:id" element={<SaleDetailPage />} />
+            <Route path="/user/pos" element={<PointOfSalePage />} />
             <Route path="/user/stock" element={<StockPage />} />
             <Route
               path="/user/stock/history/:productId"
