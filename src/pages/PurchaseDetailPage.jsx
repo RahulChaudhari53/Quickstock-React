@@ -28,27 +28,15 @@ export default function PurchaseDetailPage() {
   const isProcessing = isCancelling || isReceiving;
 
   const handleCancel = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to cancel this purchase order? This action cannot be undone."
-      )
-    ) {
-      cancelPurchase(purchaseId, {
-        onSuccess: () => refetch(), // Refetch the purchase data to show the updated status
-      });
-    }
+    cancelPurchase(purchaseId, {
+      onSuccess: () => refetch(), // Refetch the purchase data to show the updated status
+    });
   };
 
   const handleReceive = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to mark this purchase as received? This will add items to your stock."
-      )
-    ) {
-      receivePurchase(purchaseId, {
-        onSuccess: () => refetch(), // Refetch to show the updated status
-      });
-    }
+    receivePurchase(purchaseId, {
+      onSuccess: () => refetch(), // Refetch to show the updated status
+    });
   };
 
   if (isLoading) {
