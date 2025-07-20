@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePage } from "../auth/PageContext";
 import { useNavigate } from "react-router-dom";
 import { useAllPurchases } from "../hooks/usePurchase";
 import { useAllSuppliers } from "../hooks/useSupplier";
@@ -8,6 +9,11 @@ import { PlusCircle, Search } from "lucide-react";
 
 export default function PurchasesPage() {
   const navigate = useNavigate();
+  const { setPageTitle } = usePage();
+
+  useEffect(() => {
+    setPageTitle("Purchase Orders");
+  }, [setPageTitle]);
 
   const [filters, setFilters] = useState({
     page: 1,
@@ -84,66 +90,66 @@ export default function PurchasesPage() {
   const suppliers = suppliersData?.data?.data || [];
 
   return (
-    <div className="container mx-auto p-6 bg-gray-900 rounded-lg shadow-xl text-white font-inter">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extrabold text-indigo-400">
-          Purchase Orders
-        </h1>
+    <div className="container mx-auto font-inter">
+      <div className="flex justify-end mb-6">
         <Button
           onClick={() => navigate("/user/purchases/create")}
-          className="bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2"
+          className="bg-gray-800 hover:bg-gray-700 text-white flex items-center gap-2"
         >
-          <PlusCircle size={20} /> Create Purchase
+          <PlusCircle size={20} />
+          Create Purchase
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-800 rounded-lg">
-        <div className="relative col-span-1 md:col-span-4 lg:col-span-2">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-          <input
-            type="text"
-            name="search"
-            placeholder="Search by PO Number..."
-            value={localFilters.search}
+      <div className="mb-6 p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="relative col-span-1 md:col-span-2">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <input
+              type="text"
+              name="search"
+              placeholder="Search by PO Number..."
+              value={localFilters.search}
+              onChange={handleLocalFilterChange}
+              onKeyDown={(e) => e.key === "Enter" && handleApplyFilters()}
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-md sm:text-sm"
+            />
+          </div>
+          <select
+            name="supplier"
+            value={localFilters.supplier}
             onChange={handleLocalFilterChange}
-            onKeyDown={(e) => e.key === "Enter" && handleApplyFilters()}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 rounded-md"
-          />
+            className="w-full bg-gray-50 border border-gray-300 rounded-md py-2 sm:text-sm"
+          >
+            <option value="">All Suppliers</option>
+            {suppliers.map((sup) => (
+              <option key={sup._id} value={sup._id}>
+                {sup.name}
+              </option>
+            ))}
+          </select>
+          <select
+            name="purchaseStatus"
+            value={localFilters.purchaseStatus}
+            onChange={handleLocalFilterChange}
+            className="w-full bg-gray-50 border border-gray-300 rounded-md py-2 sm:text-sm"
+          >
+            <option value="">All Statuses</option>
+            <option value="ordered">Ordered</option>
+            <option value="received">Received</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <Button
+            onClick={handleApplyFilters}
+            className="col-span-1 md:col-span-4 bg-gray-800 hover:bg-gray-700 text-white"
+          >
+            Apply
+          </Button>
         </div>
-        <select
-          name="supplier"
-          value={localFilters.supplier}
-          onChange={handleLocalFilterChange}
-          className="bg-gray-700 rounded-md py-2 w-full"
-        >
-          <option value="">All Suppliers</option>
-          {suppliers.map((sup) => (
-            <option key={sup._id} value={sup._id}>
-              {sup.name}
-            </option>
-          ))}
-        </select>
-        <select
-          name="purchaseStatus"
-          value={localFilters.purchaseStatus}
-          onChange={handleLocalFilterChange}
-          className="bg-gray-700 rounded-md py-2 w-full"
-        >
-          <option value="">All Statuses</option>
-          <option value="ordered">Ordered</option>
-          <option value="received">Received</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
-        <Button
-          onClick={handleApplyFilters}
-          className="bg-indigo-600 hover:bg-indigo-700 w-full"
-        >
-          Apply Filters
-        </Button>
       </div>
 
       {isLoading ? (
-        <div className="text-center text-gray-400 py-10">
+        <div className="text-center text-gray-500 py-20">
           Loading purchase orders...
         </div>
       ) : (
@@ -160,18 +166,18 @@ export default function PurchasesPage() {
             onClick={() => handlePageChange(pagination.currentPage - 1)}
             disabled={!pagination.hasPrevPage || isLoading}
             variant="outline"
-            className="bg-gray-700"
+            className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
           >
             Previous
           </Button>
-          <span>
+          <span className="text-sm text-gray-600">
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
           <Button
             onClick={() => handlePageChange(pagination.currentPage + 1)}
             disabled={!pagination.hasNextPage || isLoading}
             variant="outline"
-            className="bg-gray-700"
+            className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
           >
             Next
           </Button>

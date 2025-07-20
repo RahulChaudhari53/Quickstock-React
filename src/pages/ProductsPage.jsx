@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePage } from "../auth/PageContext";
 import {
   useAllProducts,
   useCreateProduct,
@@ -16,6 +17,11 @@ import ProductTable from "../components/product/ProductTable";
 import { PlusCircle, Search } from "lucide-react";
 
 export default function ProductsPage() {
+  const { setPageTitle } = usePage();
+  useEffect(() => {
+    setPageTitle("Manage Products");
+  }, [setPageTitle]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -122,14 +128,11 @@ export default function ProductsPage() {
   const suppliers = suppliersData?.data?.data || [];
 
   return (
-    <div className="container mx-auto p-6 bg-gray-900 rounded-lg shadow-xl text-white font-inter">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extrabold text-indigo-400">
-          Manage Products
-        </h1>
+    <div className="container mx-auto font-inter">
+      <div className="flex justify-end items-center mb-6">
         <Button
           onClick={handleOpenCreateModal}
-          className="bg-emerald-600 hover:bg-emerald-700"
+          className="bg-gray-800 hover:bg-gray-700 text-white flex items-center gap-2"
         >
           <PlusCircle size={20} className="mr-2" />
           Create Product
@@ -137,7 +140,7 @@ export default function ProductsPage() {
       </div>
 
       {/* Filter Controls */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 p-4 bg-gray-800 rounded-lg">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6 p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
         <div className="relative col-span-1 md:col-span-2 lg:col-span-2">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input
@@ -146,14 +149,14 @@ export default function ProductsPage() {
             placeholder="Search by name or SKU..."
             value={localFilters.search}
             onChange={handleLocalFilterChange}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 rounded-md"
+            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <select
           name="category"
           value={localFilters.category}
           onChange={handleLocalFilterChange}
-          className="bg-gray-700 rounded-md py-2"
+          className="w-full bg-gray-50 border border-gray-300 rounded-md py-2 focus:ring-indigo-500 sm:text-sm"
         >
           <option value="">All Categories</option>
           {categories.map((cat) => (
@@ -166,7 +169,7 @@ export default function ProductsPage() {
           name="supplier"
           value={localFilters.supplier}
           onChange={handleLocalFilterChange}
-          className="bg-gray-700 rounded-md py-2"
+          className="w-full bg-gray-50 border border-gray-300 rounded-md py-2 focus:ring-indigo-500 sm:text-sm"
         >
           <option value="">All Suppliers</option>
           {suppliers.map((sup) => (
@@ -179,23 +182,23 @@ export default function ProductsPage() {
           name="stockStatus"
           value={localFilters.stockStatus}
           onChange={handleLocalFilterChange}
-          className="bg-gray-700 rounded-md py-2"
+          className="w-full bg-gray-50 border border-gray-300 rounded-md py-2 focus:ring-indigo-500 sm:text-sm"
         >
           <option value="">All Stock Statuses</option>
-          <option value="normal">Normal</option>
+          <option value="normal">In Stock</option>
           <option value="low_stock">Low Stock</option>
           <option value="out_of_stock">Out of Stock</option>
         </select>
         <Button
           onClick={handleApplyFilters}
-          className="col-span-1 md:col-span-2 lg:col-span-5 bg-indigo-600 hover:bg-indigo-700"
+          className="col-span-1 md:col-span-2 lg:col-span-5 bg-gray-800 hover:bg-gray-700 text-white"
         >
-          Apply Filters
+          Apply
         </Button>
       </div>
 
       {isLoading ? (
-        <div className="text-center text-gray-400 py-10">
+        <div className="text-center text-gray-500 py-20">
           Loading products...
         </div>
       ) : (
@@ -214,18 +217,18 @@ export default function ProductsPage() {
             onClick={() => handlePageChange(pagination.currentPage - 1)}
             disabled={!pagination.hasPrevPage || isLoading}
             variant="outline"
-            className="bg-gray-700"
+            className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
           >
             Previous
           </Button>
-          <span>
+          <span className="text-sm text-gray-600">
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
           <Button
             onClick={() => handlePageChange(pagination.currentPage + 1)}
             disabled={!pagination.hasNextPage || isLoading}
             variant="outline"
-            className="bg-gray-700"
+            className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
           >
             Next
           </Button>
@@ -235,7 +238,7 @@ export default function ProductsPage() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingProduct ? "Edit Product" : "Create a New Product"}
+        title={editingProduct ? "Edit Product" : "Create Product"}
       >
         <ProductForm
           onSubmit={handleFormSubmit}

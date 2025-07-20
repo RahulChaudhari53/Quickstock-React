@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePage } from "../auth/PageContext";
 import {
   useAllSuppliers,
   useCreateSupplier,
@@ -14,7 +15,12 @@ import SupplierTable from "../components/supplier/SupplierTable";
 import { PlusCircle, Search } from "lucide-react";
 
 export default function SuppliersPage() {
-  // State for modal visibility and mode (create/edit)
+  const { setPageTitle } = usePage();
+
+  useEffect(() => {
+    setPageTitle("Manage Suppliers");
+  }, [setPageTitle]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState(null);
 
@@ -45,7 +51,6 @@ export default function SuppliersPage() {
   const isProcessing =
     isCreating || isUpdating || isDeactivating || isActivating;
 
-  // --- Event Handlers ---
   const handleOpenCreateModal = () => {
     setEditingSupplier(null); // Ensure we are in "create" mode
     setIsModalOpen(true);
@@ -58,12 +63,10 @@ export default function SuppliersPage() {
 
   const handleFormSubmit = (formData) => {
     if (editingSupplier) {
-      // We are in edit mode
       updateSupplier(formData, {
         onSuccess: () => setIsModalOpen(false),
       });
     } else {
-      // We are in create mode
       createSupplier(formData, {
         onSuccess: () => setIsModalOpen(false),
       });
@@ -103,14 +106,11 @@ export default function SuppliersPage() {
   const pagination = supplierData?.data?.pagination || {};
 
   return (
-    <div className="container mx-auto p-6 bg-gray-900 rounded-lg shadow-xl text-white font-inter">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extrabold text-indigo-400">
-          Manage Suppliers
-        </h1>
+    <div className="container mx-auto font-inter">
+      <div className="flex justify-end items-center mb-6">
         <Button
           onClick={handleOpenCreateModal}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-2"
+          className="bg-gray-800 hover:bg-gray-700 text-white flex items-center gap-2"
         >
           <PlusCircle size={20} />
           Create Supplier
@@ -118,8 +118,8 @@ export default function SuppliersPage() {
       </div>
 
       {/* Filter Controls */}
-      <div className="mb-6 flex gap-4 p-4 bg-gray-800 rounded-lg">
-        <div className="relative flex-grow">
+      <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div className="relative w-full md:flex-grow">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input
             type="text"
@@ -127,27 +127,27 @@ export default function SuppliersPage() {
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleApplyFilters()}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
         <select
           value={localSortOrder}
           onChange={(e) => setLocalSortOrder(e.target.value)}
-          className="w-full md:w-auto px-4 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full md:w-auto px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
         >
           <option value="desc">Newest First</option>
           <option value="asc">Oldest First</option>
         </select>
         <Button
           onClick={handleApplyFilters}
-          className="bg-indigo-600 hover:bg-indigo-700"
+          className="w-full md:w-auto px-6 py-2 bg-gray-800 hover:bg-gray-700 text-white"
         >
           Apply
         </Button>
       </div>
 
       {isLoading ? (
-        <div className="text-center text-gray-400 py-10">
+        <div className="text-center text-gray-500 py-20">
           Loading suppliers...
         </div>
       ) : (
@@ -171,7 +171,7 @@ export default function SuppliersPage() {
           >
             Previous
           </Button>
-          <span className="text-gray-300">
+          <span className="text-sm text-gray-600">
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
           <Button
@@ -185,7 +185,6 @@ export default function SuppliersPage() {
         </div>
       )}
 
-      {/* Create/Edit Supplier Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

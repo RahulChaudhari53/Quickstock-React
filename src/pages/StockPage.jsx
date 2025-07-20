@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePage } from "../auth/PageContext";
 import { useAllStock } from "../hooks/useStock";
 import { Button } from "@/components/ui/button";
 import StockTable from "../components/stock/StockTable";
 import { Search, AlertTriangle } from "lucide-react";
 
 export default function StockPage() {
+  const { setPageTitle } = usePage();
+  useEffect(() => {
+    setPageTitle("Stock Overview");
+  }, [setPageTitle]);
+
   const [filters, setFilters] = useState({
     page: 1,
     limit: 10,
@@ -45,15 +51,9 @@ export default function StockPage() {
   const isLowStockFilterActive = !!filters.lowStockThreshold;
 
   return (
-    <div className="container mx-auto p-6 bg-gray-900 rounded-lg shadow-xl text-white font-inter">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-extrabold text-indigo-400">
-          Stock Overview
-        </h1>
-      </div>
-
-      <div className="flex flex-col md:flex-row gap-4 mb-6 p-4 bg-gray-800 rounded-lg">
-        <div className="relative flex-grow">
+    <div className="container mx-auto font-inter">
+      <div className="mb-6 flex flex-col md:flex-row gap-4 items-center p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+        <div className="relative flex-grow w-full">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input
             type="text"
@@ -61,32 +61,33 @@ export default function StockPage() {
             value={localSearch}
             onChange={(e) => setLocalSearch(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleApplySearch()}
-            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-md sm:text-sm"
           />
         </div>
-
-        <Button
-          onClick={handleToggleLowStockFilter}
-          variant={isLowStockFilterActive ? "secondary" : "outline"}
-          className={`flex items-center gap-2 ${
-            isLowStockFilterActive
-              ? "bg-yellow-600 hover:bg-yellow-700 text-white"
-              : "bg-gray-700"
-          }`}
-        >
-          <AlertTriangle size={16} />
-          {isLowStockFilterActive ? "Show All Stock" : "Show Low Stock"}
-        </Button>
-        <Button
-          onClick={handleApplySearch}
-          className="bg-indigo-600 hover:bg-indigo-700"
-        >
-          Search
-        </Button>
+        <div className="flex w-full md:w-auto gap-2">
+          <Button
+            onClick={handleApplySearch}
+            className="bg-gray-800 hover:bg-gray-700 text-white flex-grow"
+          >
+            Search
+          </Button>
+          <Button
+            onClick={handleToggleLowStockFilter}
+            variant={isLowStockFilterActive ? "secondary" : "outline"}
+            className={`flex items-center gap-2 flex-grow ${
+              isLowStockFilterActive
+                ? "bg-yellow-500 hover:bg-yellow-600 text-white border-yellow-500"
+                : ""
+            }`}
+          >
+            <AlertTriangle size={16} />
+            {isLowStockFilterActive ? "Show All" : "Low Stock"}
+          </Button>
+        </div>
       </div>
 
       {isLoading ? (
-        <div className="text-center text-gray-400 py-10">
+        <div className="text-center text-gray-500 py-20">
           Loading stock levels...
         </div>
       ) : (
@@ -99,18 +100,18 @@ export default function StockPage() {
             onClick={() => handlePageChange(pagination.currentPage - 1)}
             disabled={!pagination.hasPrevPage || isLoading}
             variant="outline"
-            className="bg-gray-700"
+            className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
           >
             Previous
           </Button>
-          <span>
+          <span className="text-sm text-gray-600">
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
           <Button
             onClick={() => handlePageChange(pagination.currentPage + 1)}
             disabled={!pagination.hasNextPage || isLoading}
             variant="outline"
-            className="bg-gray-700"
+            className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
           >
             Next
           </Button>
