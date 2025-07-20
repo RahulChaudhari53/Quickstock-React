@@ -13,7 +13,7 @@ export default function GuestRoute() {
   }
 
   if (user?.role === "shop_owner") {
-    return <Navigate to="/user/product" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   if (user) {
@@ -22,4 +22,3 @@ export default function GuestRoute() {
 
   return <Outlet />;
 }
-
