@@ -1,16 +1,45 @@
 // layouts/MainLayout.jsx
-import Header from "./Header";
+import LandingHeader from "./LandingHeader";
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer";
+import LandingFooter from "./LandingFooter";
 
 export default function MainLayout() {
   return (
     <div className="w-full min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-grow p-4 md:p-8 flex">
+      <LandingHeader />
+      <main className="flex-grow">
         <Outlet />
       </main>
-      <Footer className="flex-shrink-0" />
+      <LandingFooter />
     </div>
   );
 }
+
+// /////
+
+// import { useContext } from "react";
+// import { Outlet } from "react-router-dom";
+// import { AuthContext } from "../auth/AuthProvider";
+// import PublicHeader from "./Header";
+// import Footer from "./Footer";
+// import DashboardLayout from "./DashboardLayout";
+
+// export default function MainLayout() {
+//   const { isAuthenticated } = useContext(AuthContext);
+
+//   if (isAuthenticated) {
+//     return <DashboardLayout />;
+//   }
+
+//   return (
+//     <div className="w-full min-h-screen flex flex-col bg-gray-900">
+//       <PublicHeader />
+//       <main className="flex-grow">
+//         <Outlet />
+//       </main>
+//       <Footer />
+//     </div>
+//   );
+// }
+
+// ////
