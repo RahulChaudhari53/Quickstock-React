@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 // Layout and Authentication
 import MainLayout from "../layouts/MainLayout";
+import AuthLayout from "../layouts/AuthLayout";
+import DashboardLayout from "../layouts/DashboardLayout";
 import { AuthContext } from "../auth/AuthProvider";
 import GuestRoute from "./GuestRoute";
 import NormalUserRoute from "./NormalUserRoute";
@@ -11,14 +13,14 @@ import AdminRoute from "./admin/AdminRoute";
 // Public and General Pages
 import LandingPage from "../pages/LandingPage";
 import Homepage from "../pages/HomePage";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import Login from "../pages/LoginPage";
+import Register from "../pages/RegisterPage";
 
 // Admin Pages
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUserPage from "../pages/admin/AdminUserPage";
 
-// Shop Owner Pages
+// Shop Owner (Normal User) Pages
 import UserProfilePage from "../pages/UserProfilePage";
 import CategoriesPage from "../pages/CategoriesPage";
 import SuppliersPage from "../pages/SuppliersPage";
@@ -29,18 +31,15 @@ import PurchasesPage from "../pages/PurchasesPage";
 import CreatePurchasePage from "../pages/CreatePurchasePage";
 import EditPurchasePage from "../pages/EditPurchasePage";
 import PurchaseDetailPage from "../pages/PurchaseDetailPage";
-import SalesPage from "../pages/SalesPage";
-import SaleDetailPage from "../pages/SaleDetailPage";
-import PointOfSalePage from "../pages/PointOfSalePage";
 import StockPage from "../pages/StockPage";
 import StockHistoryPage from "../pages/StockHistoryPage";
 
 export default function AppRouter() {
-  const { user, loading } = useContext(AuthContext);
+  const { loading } = useContext(AuthContext);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-screen text-white text-2xl">
+      <div className="flex justify-center items-center h-screen bg-gray-900 text-white text-2xl">
         Loading application...
       </div>
     );
@@ -49,73 +48,66 @@ export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          {/* --- Public Routes --- */}
-          <Route
-            index
-            element={
-              user ? <Navigate to="/dashboard" replace /> : <LandingPage />
-            }
-          />
-          <Route element={<GuestRoute />}>
+        {/* --- Public Routes (Handled by MainLayout's public view) --- */}
+        <Route element={<GuestRoute />}>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<LandingPage />} />
+          </Route>
+          <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
           </Route>
+        </Route>
 
-          {/* --- General Authenticated Route --- */}
-          <Route path="/dashboard" element={<Homepage />} />
-
-          {/* --- Shop Owner (Normal User) Protected Routes --- */}
-          <Route path="/user/*" element={<NormalUserRoute />}>
-            <Route path="profile" element={<UserProfilePage />} />
-            <Route path="categories" element={<CategoriesPage />} />
-            <Route path="suppliers" element={<SuppliersPage />} />
-            <Route path="suppliers/:id" element={<SupplierDetailPage />} />
-            <Route path="products" element={<ProductsPage />} />
-            <Route path="products/:id" element={<ProductDetailPage />} />
-            <Route path="purchases" element={<PurchasesPage />} />
-            <Route path="purchases/create" element={<CreatePurchasePage />} />
-            <Route path="purchases/edit/:id" element={<EditPurchasePage />} />
-            <Route path="purchases/:id" element={<PurchaseDetailPage />} />
-            <Route path="sales" element={<SalesPage />} />
-            <Route path="sales/:id" element={<SaleDetailPage />} />
-            <Route path="pos" element={<PointOfSalePage />} />
-            <Route path="stock" element={<StockPage />} />
+        {/* --- Shop Owner (Normal User) Protected Routes --- */}
+        <Route element={<NormalUserRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<Homepage />} />
+            <Route path="/user/profile" element={<UserProfilePage />} />
+            <Route path="/user/categories" element={<CategoriesPage />} />
+            <Route path="/user/suppliers" element={<SuppliersPage />} />
             <Route
-              path="stock/history/:productId"
+              path="/user/suppliers/:id"
+              element={<SupplierDetailPage />}
+            />
+            <Route path="/user/products" element={<ProductsPage />} />
+            <Route path="/user/products/:id" element={<ProductDetailPage />} />
+            <Route path="/user/purchases" element={<PurchasesPage />} />
+            <Route
+              path="/user/purchases/create"
+              element={<CreatePurchasePage />}
+            />
+            <Route
+              path="/user/purchases/edit/:id"
+              element={<EditPurchasePage />}
+            />
+            <Route
+              path="/user/purchases/:id"
+              element={<PurchaseDetailPage />}
+            />
+            <Route path="/user/stock" element={<StockPage />} />
+            <Route
+              path="/user/stock/history/:productId"
               element={<StockHistoryPage />}
             />
-            <Route
-              path="*"
-              element={
-                <div className="text-white text-2xl p-8 bg-gray-800 rounded-lg shadow-md">
-                  404 Not Found (User Area)
-                </div>
-              }
-            />
           </Route>
+        </Route>
 
-          {/* --- Admin Protected Routes --- */}
-          <Route path="/admin/*" element={<AdminRoute />}>
-            <Route index element={<Navigate to="users" replace />} />
-            <Route path="users" element={<AdminDashboard />} />
-            <Route path="users/:id" element={<AdminUserPage />} />
-            <Route
-              path="*"
-              element={
-                <div className="text-white text-2xl p-8 bg-gray-800 rounded-lg shadow-md">
-                  404 Not Found (Admin Area)
-                </div>
-              }
-            />
-          </Route>
+        {/* --- Admin Protected Routes (Separate Layout) --- */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/users" element={<AdminDashboard />} />
+          <Route path="/admin/users/:id" element={<AdminUserPage />} />
+          <Route
+            path="/admin"
+            element={<Navigate to="/admin/users" replace />}
+          />
         </Route>
 
         {/* --- Global 404 Fallback --- */}
         <Route
           path="*"
           element={
-            <div className="text-white text-3xl font-bold text-center mt-20">
+            <div className="flex justify-center items-center h-screen bg-gray-900 text-white text-3xl font-bold">
               404 - Page Not Found
             </div>
           }
