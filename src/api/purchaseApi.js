@@ -16,4 +16,4 @@ export const cancelPurchaseApi = (purchaseId) =>
   axios.patch(`/purchases/purchase/cancel/${purchaseId}`);
 
 export const receivePurchaseApi = (purchaseId) =>
-  axios.patch(`/purchases/purchase/receive/${purchaseId}s`);
+  axios.patch(`/purchases/purchase/receive/${purchaseId}`);
