@@ -9,8 +9,11 @@ export default function CategoryTable({
 }) {
   if (!categories || categories.length === 0) {
     return (
-      <div className="text-center text-gray-400 py-10 bg-gray-800 rounded-lg">
+      <div className="text-center text-gray-500 py-10 bg-white border border-gray-200 rounded-lg shadow-sm">
         <p>No categories found.</p>
+        <p className="text-sm mt-1">
+          Click "Create Category" to add a new one.
+        </p>
       </div>
     );
   }
