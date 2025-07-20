@@ -1,4 +1,5 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
+import { usePage } from "../auth/PageContext";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -27,18 +28,42 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Reusable Card component for structure
+const Card = ({ title, children }) => (
+  <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+    <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-4 border-b border-gray-200">
+      {title}
+    </h3>
+    <div className="space-y-4">{children}</div>
+  </div>
+);
+
+// Reusable row for displaying details
+const DetailRow = ({ label, value, onEditClick, editKey }) => (
+  <div className="flex justify-between items-center">
+    <div>
+      <p className="text-sm font-medium text-gray-500">{label}</p>
+      <p className="text-base text-gray-800">{value}</p>
+    </div>
+    <Button onClick={() => onEditClick(editKey)} size="sm" variant="ghost">
+      <Edit2 className="h-5 w-5 text-gray-500" />
+    </Button>
+  </div>
+);
+
 export default function UserProfilePage() {
   const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { setPageTitle } = usePage();
 
-  // State to manage which section is currently being edited
-  const [editMode, setEditMode] = useState(null); // null, 'name', 'email', 'phone'
+  useEffect(() => {
+    setPageTitle("My Profile");
+  }, [setPageTitle]);
 
-  // Ref for the hidden file input
+  const [editMode, setEditMode] = useState(null);
   const fileInputRef = useRef(null);
 
   const { data: userData, isLoading, isError, error } = useUserProfile();
-
   const { mutate: updateUserInfo, isPending: isUpdatingInfo } =
     useUpdateUserInfo();
   const { mutate: updateEmail, isPending: isUpdatingEmail } = useUpdateEmail();
@@ -86,8 +111,7 @@ export default function UserProfilePage() {
 
   const passwordFormik = useFormik({
     initialValues: { oldPassword: "", newPassword: "", confirmNewPassword: "" },
-    validationSchema: Yup.object({
-    }),
+    validationSchema: Yup.object({}),
     onSubmit: (values, { resetForm }) => {
       const data = {
         oldPassword: values.oldPassword,
@@ -125,7 +149,6 @@ export default function UserProfilePage() {
     },
   });
 
-  // --- Event Handlers ---
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -136,127 +159,96 @@ export default function UserProfilePage() {
   };
 
   const handleDeletePhone = (phoneNumber) => {
-    if (
-      window.confirm(
-        `Are you sure you want to delete the number ${phoneNumber}?`
-      )
-    ) {
-      deletePhoneNumber({ userId: userData.data._id, data: { phoneNumber } });
-    }
+    deletePhoneNumber({ userId: userData.data._id, data: { phoneNumber } });
   };
 
   const handleDeactivate = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to deactivate your account? This action cannot be undone."
-      )
-    ) {
-      deactivateUser(userData.data._id, {
-        onSuccess: () => {
-          logout();
-          navigate("/login");
-        },
-      });
-    }
+    deactivateUser(userData.data._id, {
+      onSuccess: () => {
+        logout();
+        navigate("/login");
+      },
+    });
   };
 
   if (isLoading)
-    return <div className="text-center p-10">Loading Profile...</div>;
+    return (
+      <div className="text-center p-10 text-gray-500">Loading Profile...</div>
+    );
   if (isError)
     return (
-      <div className="text-red-400 text-center p-10">
+      <div className="text-red-500 text-center p-10">
         Error: {error.message}
       </div>
     );
 
   const user = userData.data;
 
-  // --- Reusable Component for Displaying Info ---
-  const InfoRow = ({ icon, label, value, editKey }) => (
-    <div className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
-      <div className="flex items-center gap-4">
-        {icon}
-        <div>
-          <p className="text-sm text-gray-400">{label}</p>
-          <p className="text-lg font-medium">{value}</p>
-        </div>
-      </div>
-      <Button onClick={() => setEditMode(editKey)} size="sm" variant="ghost">
-        <Edit2 className="h-5 w-5" />
-      </Button>
-    </div>
-  );
-
   return (
-    <div className="container mx-auto max-w-2xl p-6 font-inter text-white">
-      <h1 className="text-4xl font-bold mb-8 text-center text-emerald-400">
-        My Profile
-      </h1>
-
-      {/* --- Profile Image Section --- */}
-      <div className="flex flex-col items-center mb-8">
-        <div className="relative">
-          <img
-            src={
-              user.profileImage
-                ? `http://localhost:5050/${user.profileImage.replace(
-                    /\\/g,
-                    "/"
-                  )}`
-                : `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=0D9488&color=fff&size=128`
-            }
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover border-4 border-emerald-500"
-          />
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImageUpload}
-            accept="image/*"
-            className="hidden"
-          />
-          <Button
-            onClick={() => fileInputRef.current.click()}
-            size="icon"
-            className="absolute bottom-0 right-0 bg-indigo-600 hover:bg-indigo-700 rounded-full h-10 w-10"
-          >
-            {isUpdatingImage ? "..." : <Edit2 size={20} />}
-          </Button>
+    <div className="w-full max-w-4xl mx-auto space-y-8">
+      {/* --- Main Profile Card --- */}
+      <div className="bg-white p-6 sm:p-8 rounded-lg border border-gray-200 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div className="relative flex-shrink-0">
+            <img
+              src={
+                user.profileImage
+                  ? `http://localhost:5050/${user.profileImage.replace(
+                      /\\/g,
+                      "/"
+                    )}`
+                  : `https://ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&background=374151&color=fff&size=128`
+              }
+              alt="Profile"
+              className="w-24 h-24 sm:w-32 sm:h-32 rounded-[30%] object-cover border-4 border-white shadow-md"
+            />
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+              accept="image/*"
+              className="hidden"
+            />
+            <Button
+              onClick={() => fileInputRef.current.click()}
+              size="icon"
+              className="absolute bottom-1 right-1 bg-gray-400 hover:bg-gray-700 text-white rounded-full h-8 w-8 sm:h-10 sm:w-10"
+            >
+              {isUpdatingImage ? "..." : <Edit2 size={18} />}
+            </Button>
+          </div>
+          <div className="text-center sm:text-left">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              {user.firstName} {user.lastName}
+            </h2>
+            <p className="text-gray-500 mt-1">{user.email}</p>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-4">
-        {/* --- Full Name Section --- */}
+      {/* --- Personal Information Card --- */}
+      <Card title="Personal Information">
         {editMode === "name" ? (
-          <form
-            onSubmit={infoFormik.handleSubmit}
-            className="p-4 bg-gray-800 rounded-lg space-y-3"
-          >
-            <input
-              name="firstName"
-              {...infoFormik.getFieldProps("firstName")}
-              className="w-full bg-gray-700 p-2 rounded"
-            />
-            {infoFormik.touched.firstName && infoFormik.errors.firstName && (
-              <p className="text-red-400 text-sm">
-                {infoFormik.errors.firstName}
-              </p>
-            )}
-            <input
-              name="lastName"
-              {...infoFormik.getFieldProps("lastName")}
-              className="w-full bg-gray-700 p-2 rounded"
-            />
-            {infoFormik.touched.lastName && infoFormik.errors.lastName && (
-              <p className="text-red-400 text-sm">
-                {infoFormik.errors.lastName}
-              </p>
-            )}
+          <form onSubmit={infoFormik.handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input
+                name="firstName"
+                {...infoFormik.getFieldProps("firstName")}
+                className="w-full px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200"
+                placeholder="First Name"
+              />
+              <input
+                name="lastName"
+                {...infoFormik.getFieldProps("lastName")}
+                className="w-full px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200"
+                placeholder="Last Name"
+              />
+            </div>
             <div className="flex gap-2">
               <Button
                 type="submit"
                 disabled={isUpdatingInfo}
-                className="bg-emerald-600"
+                className="bg-gray-400"
               >
                 {isUpdatingInfo ? "Saving..." : "Save"}
               </Button>
@@ -270,33 +262,30 @@ export default function UserProfilePage() {
             </div>
           </form>
         ) : (
-          <InfoRow
-            icon={<User />}
+          <DetailRow
             label="Full Name"
             value={`${user.firstName} ${user.lastName}`}
+            onEditClick={setEditMode}
             editKey="name"
           />
         )}
+      </Card>
 
-        {/* --- Email Section --- */}
+      {/* --- Contact Details Card --- */}
+      <Card title="Contact Details">
         {editMode === "email" ? (
-          <form
-            onSubmit={emailFormik.handleSubmit}
-            className="p-4 bg-gray-800 rounded-lg space-y-3"
-          >
+          <form onSubmit={emailFormik.handleSubmit} className="space-y-4">
             <input
               name="email"
               {...emailFormik.getFieldProps("email")}
-              className="w-full bg-gray-700 p-2 rounded"
+              className="w-full px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200"
+              lastName="example@email.com"
             />
-            {emailFormik.touched.email && emailFormik.errors.email && (
-              <p className="text-red-400 text-sm">{emailFormik.errors.email}</p>
-            )}
             <div className="flex gap-2">
               <Button
                 type="submit"
                 disabled={isUpdatingEmail}
-                className="bg-emerald-600"
+                className="bg-gray-400"
               >
                 {isUpdatingEmail ? "Saving..." : "Save"}
               </Button>
@@ -310,93 +299,25 @@ export default function UserProfilePage() {
             </div>
           </form>
         ) : (
-          <InfoRow
-            icon={<Mail />}
-            label="Email"
+          <DetailRow
+            label="Email Address"
             value={user.email}
+            onEditClick={setEditMode}
             editKey="email"
           />
         )}
-
-        {/* --- Update Password Section --- */}
-        <div className="p-4 bg-gray-800 rounded-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <KeyRound />
-              <p className="text-lg font-medium">Password</p>
-            </div>
-            <Button
-              onClick={() =>
-                setEditMode(editMode === "password" ? null : "password")
-              }
-              size="sm"
-              variant="ghost"
-            >
-              {editMode === "password" ? <X /> : <Edit2 />}
-            </Button>
-          </div>
-          {editMode === "password" && (
-            <form
-              onSubmit={passwordFormik.handleSubmit}
-              className="mt-4 space-y-3"
-            >
-              {/* Password form fields here */}
-              <input
-                name="oldPassword"
-                type="password"
-                placeholder="Current Password"
-                {...passwordFormik.getFieldProps("oldPassword")}
-                className="w-full bg-gray-700 p-2 rounded"
-              />
-              {passwordFormik.touched.oldPassword &&
-                passwordFormik.errors.oldPassword && (
-                  <p className="text-red-400 text-sm">
-                    {passwordFormik.errors.oldPassword}
-                  </p>
-                )}
-              <input
-                name="newPassword"
-                type="password"
-                placeholder="New Password"
-                {...passwordFormik.getFieldProps("newPassword")}
-                className="w-full bg-gray-700 p-2 rounded"
-              />
-              {passwordFormik.touched.newPassword &&
-                passwordFormik.errors.newPassword && (
-                  <p className="text-red-400 text-sm">
-                    {passwordFormik.errors.newPassword}
-                  </p>
-                )}
-              <Button
-                type="submit"
-                disabled={isUpdatingPassword}
-                className="bg-indigo-600"
-              >
-                {isUpdatingPassword ? "Updating..." : "Update Password"}
-              </Button>
-            </form>
-          )}
-        </div>
-
-        {/* --- Phone Numbers Section --- */}
-        <div className="p-4 bg-gray-800 rounded-lg">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium mb-2 flex items-center gap-4">
-              <Phone /> Phone Numbers
-            </h3>
-            {!user.secondaryPhone && editMode !== "phone" && (
-              <Button
-                onClick={() => setEditMode("phone")}
-                size="sm"
-                variant="ghost"
-              >
-                <PlusCircle />
-              </Button>
-            )}
-          </div>
-          <div className="space-y-2 mt-2">
+        <hr className="border-gray-200" />
+        {/* Phone numbers section */}
+        <div>
+          <p className="text-sm font-medium text-gray-500">Phone Numbers</p>
+          <div className="mt-2 space-y-2">
             <div className="flex justify-between items-center">
-              <p>{user.primaryPhone} (Primary)</p>
+              <p>
+                {user.primaryPhone}{" "}
+                <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                  Primary
+                </span>
+              </p>
             </div>
             {user.secondaryPhone && (
               <div className="flex justify-between items-center">
@@ -405,67 +326,118 @@ export default function UserProfilePage() {
                   onClick={() => handleDeletePhone(user.secondaryPhone)}
                   size="icon"
                   variant="ghost"
-                  className="text-red-400"
+                  className="text-red-500"
                   disabled={isDeletingPhone}
                 >
                   <Trash2 size={18} />
                 </Button>
               </div>
             )}
-            {editMode === "phone" && (
-              <form
-                onSubmit={phoneFormik.handleSubmit}
-                className="flex gap-2 items-start"
-              >
-                <div className="flex-grow">
-                  <input
-                    name="phoneNumber"
-                    placeholder="New 10-digit number"
-                    {...phoneFormik.getFieldProps("phoneNumber")}
-                    className="w-full bg-gray-700 p-2 rounded"
-                  />
-                  {phoneFormik.touched.phoneNumber &&
-                    phoneFormik.errors.phoneNumber && (
-                      <p className="text-red-400 text-sm">
-                        {phoneFormik.errors.phoneNumber}
-                      </p>
-                    )}
-                </div>
-                <Button
-                  type="submit"
-                  disabled={isAddingPhone}
-                  className="bg-emerald-600"
-                >
-                  {isAddingPhone ? "..." : "Add"}
-                </Button>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  onClick={() => setEditMode(null)}
-                >
-                  <X />
-                </Button>
-              </form>
-            )}
           </div>
+          {!user.secondaryPhone && editMode !== "phone" && (
+            <Button
+              onClick={() => setEditMode("phone")}
+              variant="link"
+              className="p-0 h-auto mt-2"
+            >
+              <PlusCircle className="mr-2" /> Add secondary phone
+            </Button>
+          )}
+          {editMode === "phone" && (
+            <form
+              onSubmit={phoneFormik.handleSubmit}
+              className="flex gap-2 items-start mt-4"
+            >
+              <div className="flex-grow">
+                <input
+                  name="phoneNumber"
+                  {...phoneFormik.getFieldProps("phoneNumber")}
+                  className="w-full px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200"
+                  placeholder="Must br 10 digit."
+                />
+              </div>
+              <Button
+                type="submit"
+                disabled={isAddingPhone}
+                className="bg-gray-400"
+              >
+                {isAddingPhone ? "..." : "Add"}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setEditMode(null)}
+              >
+                Cancel
+              </Button>
+            </form>
+          )}
         </div>
+      </Card>
 
-        {/* --- Deactivate Account Section --- */}
-        <div className="mt-10 border-t border-red-500/30 pt-6">
-          <h3 className="text-lg font-semibold text-red-400 mb-2">
-            Danger Zone
-          </h3>
-          <p className="text-sm text-gray-400 mb-4">
-            Deactivating your account is a permanent action.
-          </p>
+      {/* --- Security Card --- */}
+      <Card title="Security">
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-sm font-medium text-gray-500">Password</p>
+            <p className="text-base text-gray-800">••••••••</p>
+          </div>
           <Button
-            onClick={handleDeactivate}
-            variant="destructive"
-            className="w-full bg-red-600 hover:bg-red-700"
+            onClick={() =>
+              setEditMode(editMode === "password" ? null : "password")
+            }
+            size="sm"
+            variant="ghost"
           >
-            Deactivate Account
+            {editMode === "password" ? "Cancel" : "Change"}
           </Button>
         </div>
+        {editMode === "password" && (
+          <form
+            onSubmit={passwordFormik.handleSubmit}
+            className="mt-4 space-y-3 border-t border-gray-200 pt-4"
+          >
+            <input
+              name="oldPassword"
+              type="password"
+              placeholder="Current Password"
+              {...passwordFormik.getFieldProps("oldPassword")}
+              className="w-full px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200"
+            />
+            <input
+              name="newPassword"
+              type="password"
+              placeholder="New Password. 8"
+              {...passwordFormik.getFieldProps("newPassword")}
+              className="w-full px-4 py-2 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition duration-200"
+            />
+            <Button
+              type="submit"
+              disabled={isUpdatingPassword}
+              className="bg-gray-400"
+            >
+              Update Password
+            </Button>
+          </form>
+        )}
+      </Card>
+
+      {/* --- Danger Zone --- */}
+      <div className="bg-red-50 p-6 rounded-lg border border-red-200 shadow-md">
+        <h3 className="text-xl font-bold text-red-700 flex items-center gap-2">
+          Danger Zone
+        </h3>
+        <p className="text-base text-red-600 mt-3 mb-5 leading-relaxed">
+          Deactivating your account is a permanent action and cannot be undone.
+        </p>
+        <Button
+          onClick={handleDeactivate}
+          variant="destructive"
+          className="w-full sm:w-auto px-6 text-base border border-gray-700
+          hover:bg-red-500"
+        >
+          Deactivate Account
+        </Button>
       </div>
     </div>
   );
