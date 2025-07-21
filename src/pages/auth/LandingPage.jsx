@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import DashboardIllustration from "../assets/dashboard-illustration.svg";
+import DashboardIllustration from "../../assets/dashboard-illustration.svg";
 
 // Reusable component for feature items to keep the code DRY
 const FeatureItem = ({ icon, title, description }) => (

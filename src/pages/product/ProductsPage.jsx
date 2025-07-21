@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
-import { usePage } from "../auth/PageContext";
+import { usePage } from "../../auth/PageContext";
 import {
   useAllProducts,
   useCreateProduct,
   useUpdateProduct,
   useDeactivateProduct,
   useActivateProduct,
-} from "../hooks/useProduct";
-import { useAllCategories } from "../hooks/useCategory";
-import { useAllSuppliers } from "../hooks/useSupplier";
+} from "../../hooks/useProduct";
+import { useAllCategories } from "../../hooks/useCategory";
+import { useAllSuppliers } from "../../hooks/useSupplier";
 
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
-import ProductForm from "../components/product/ProductForm";
-import ProductTable from "../components/product/ProductTable";
+import ProductForm from "../../components/product/ProductForm";
+import ProductTable from "../../components/product/ProductTable";
 import { PlusCircle, Search } from "lucide-react";
 
 export default function ProductsPage() {

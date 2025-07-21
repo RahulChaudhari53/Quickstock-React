@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { usePurchaseById, useUpdatePurchase } from "../hooks/usePurchase";
-import PurchaseForm from "../components/purchase/PurchaseForm";
+import { usePurchaseById, useUpdatePurchase } from "../../hooks/usePurchase";
+import PurchaseForm from "../../components/purchase/PurchaseForm";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 

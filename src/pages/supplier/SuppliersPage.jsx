@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
-import { usePage } from "../auth/PageContext";
+import { usePage } from "../../auth/PageContext";
 import {
   useAllSuppliers,
   useCreateSupplier,
   useUpdateSupplier,
   useDeactivateSupplier,
   useActivateSupplier,
-} from "../hooks/useSupplier";
+} from "../../hooks/useSupplier";
 
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
-import SupplierForm from "../components/supplier/SupplierForm";
-import SupplierTable from "../components/supplier/SupplierTable";
+import SupplierForm from "../../components/supplier/SupplierForm";
+import SupplierTable from "../../components/supplier/SupplierTable";
 import { PlusCircle, Search } from "lucide-react";
 
 export default function SuppliersPage() {

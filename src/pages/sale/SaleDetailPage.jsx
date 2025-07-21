@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useSaleById, useCancelSale } from "../hooks/useSale";
-import SaleDetailView from "../components/sale/SaleDetailView";
+import { useSaleById, useCancelSale } from "../../hooks/useSale";
+import SaleDetailView from "../../components/sale/SaleDetailView";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, XCircle } from "lucide-react";
 

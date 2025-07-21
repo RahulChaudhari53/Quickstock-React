@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { usePage } from "../auth/PageContext";
+import { usePage } from "../../auth/PageContext";
 import { useNavigate } from "react-router-dom";
-import { useAllPurchases } from "../hooks/usePurchase";
-import { useAllSuppliers } from "../hooks/useSupplier";
+import { useAllPurchases } from "../../hooks/usePurchase";
+import { useAllSuppliers } from "../../hooks/useSupplier";
 import { Button } from "@/components/ui/button";
-import PurchaseTable from "../components/purchase/PurchaseTable";
+import PurchaseTable from "../../components/purchase/PurchaseTable";
 import { PlusCircle, Search } from "lucide-react";
 
 export default function PurchasesPage() {

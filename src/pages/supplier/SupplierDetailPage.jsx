@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { useSupplierById } from "../hooks/useSupplier";
+import { useSupplierById } from "../../hooks/useSupplier";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, User, Tag, FileText, Calendar } from "lucide-react";
 

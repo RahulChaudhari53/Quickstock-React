@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { usePage } from "../auth/PageContext";
+import { usePage } from "../../auth/PageContext";
 import {
   useAllCategories,
   useCreateCategory,
   useDeactivateCategory,
   useActivateCategory,
-} from "../hooks/useCategory";
+} from "../../hooks/useCategory";
 
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/Modal";
-import CategoryForm from "../components/category/categoryForm";
-import CategoryTable from "../components/category/categoryTable";
+import CategoryForm from "../../components/category/categoryForm";
+import CategoryTable from "../../components/category/categoryTable";
 import { PlusCircle, Search } from "lucide-react";
 
 export default function CategoriesPage() {

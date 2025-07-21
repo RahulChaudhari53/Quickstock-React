@@ -3,8 +3,8 @@ import {
   usePurchaseById,
   useCancelPurchase,
   useReceivePurchase,
-} from "../hooks/usePurchase";
-import PurchaseDetailView from "../components/purchase/PurchaseDetailView";
+} from "../../hooks/usePurchase";
+import PurchaseDetailView from "../../components/purchase/PurchaseDetailView";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, X, PackageCheck } from "lucide-react";
 

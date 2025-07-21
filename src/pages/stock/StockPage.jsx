@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { usePage } from "../auth/PageContext";
-import { useAllStock } from "../hooks/useStock";
+import { usePage } from "../../auth/PageContext";
+import { useAllStock } from "../../hooks/useStock";
 import { Button } from "@/components/ui/button";
-import StockTable from "../components/stock/StockTable";
+import StockTable from "../../components/stock/StockTable";
 import { Search, AlertTriangle } from "lucide-react";
 
 export default function StockPage() {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { usePage } from "../auth/PageContext";
+import { usePage } from "../../auth/PageContext";
 import { useNavigate } from "react-router-dom";
-import { useAllSales } from "../hooks/useSale";
+import { useAllSales } from "../../hooks/useSale";
 import { Button } from "@/components/ui/button";
-import SalesTable from "../components/sale/SalesTable";
+import SalesTable from "../../components/sale/SalesTable";
 import { PlusCircle, Search } from "lucide-react";
 
 export default function SalesPage() {

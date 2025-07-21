@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useStockMovement } from "../hooks/useStock";
-import { useProductById } from "../hooks/useProduct"; 
+import { useStockMovement } from "../../hooks/useStock";
+import { useProductById } from "../../hooks/useProduct";
 import { Button } from "@/components/ui/button";
-import StockMovementTable from "../components/stock/StockMovementTable";
+import StockMovementTable from "../../components/stock/StockMovementTable";
 import { ArrowLeft } from "lucide-react";
 
 export default function StockHistoryPage() {

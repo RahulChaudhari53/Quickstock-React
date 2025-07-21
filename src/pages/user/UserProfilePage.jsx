@@ -1,9 +1,9 @@
 import { useState, useRef, useContext, useEffect } from "react";
-import { usePage } from "../auth/PageContext";
+import { usePage } from "../../auth/PageContext";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { AuthContext } from "../auth/AuthProvider";
+import { AuthContext } from "../../auth/AuthProvider";
 
 import {
   useUserProfile,
@@ -14,7 +14,7 @@ import {
   useAddPhoneNumber,
   useDeletePhoneNumber,
   useDeactivateUser,
-} from "../hooks/useUser";
+} from "../../hooks/useUser";
 
 import {
   Mail,

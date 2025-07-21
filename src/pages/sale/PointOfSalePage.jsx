@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCreateSale } from "../hooks/useSale";
+import { useCreateSale } from "../../hooks/useSale";
 import { toast } from "react-toastify";
-import ProductCatalog from "../components/sale/ProductCatalog";
-import SaleCart from "../components/sale/SaleCart";
+import ProductCatalog from "../../components/sale/ProductCatalog";
+import SaleCart from "../../components/sale/SaleCart";
 import { Button } from "@/components/ui/button";
 
 export default function PointOfSalePage() {

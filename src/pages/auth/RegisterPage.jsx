@@ -1,6 +1,6 @@
-import RegisterForm from "../components/auth/RegisterForm";
-import AppIcon from "../assets/quickstock-logo.svg";
-import Illustration from "../assets/Sign up-bro.svg";
+import RegisterForm from "../../components/auth/registerForm";
+import AppIcon from "../../assets/quickstock-logo.svg";
+import Illustration from "../../assets/Sign up-bro.svg";
 
 export default function Register() {
   return (

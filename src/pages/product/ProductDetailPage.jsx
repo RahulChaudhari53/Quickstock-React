@@ -3,8 +3,8 @@ import {
   useProductById,
   useDeactivateProduct,
   useActivateProduct,
-} from "../hooks/useProduct";
-import ProductDetailView from "../components/product/ProductDetailView";
+} from "../../hooks/useProduct";
+import ProductDetailView from "../../components/product/ProductDetailView";
 import { Button } from "@/components/ui/button";
 
 export default function ProductDetailPage() {
