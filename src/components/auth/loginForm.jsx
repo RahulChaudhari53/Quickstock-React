@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useLoginUser } from "../../hooks/useLoginUser";
+import { useLoginUser } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { AtSign, Eye, EyeOff, Lock, Phone } from "lucide-react";
 import AppIcon from "../../assets/quickstock-logo.svg";
@@ -116,9 +116,12 @@ export default function LoginForm() {
           </div>
 
           <div className="text-right text-sm text-gray-600">
-            <a href="#" className="font-medium hover:text-indigo-800">
+            <Link
+              to="/forgot-password"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
               Forgot password?
-            </a>
+            </Link>
           </div>
 
           {/* Submit Button */}
