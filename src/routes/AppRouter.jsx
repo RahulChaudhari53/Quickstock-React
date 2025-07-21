@@ -11,31 +11,34 @@ import NormalUserRoute from "./NormalUserRoute";
 import AdminRoute from "./admin/AdminRoute";
 
 // Public and General Pages
-import LandingPage from "../pages/LandingPage";
-import Homepage from "../pages/HomePage";
-import Login from "../pages/LoginPage";
-import Register from "../pages/RegisterPage";
+import LandingPage from "../pages/auth/LandingPage";
+import Login from "../pages/auth/LoginPage";
+import Register from "../pages/auth/RegisterPage";
+import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
+import VerifyOtpPage from "../pages/auth/VerifyOtpPage";
+import ResetPasswordPage from "../pages/auth/ResetPasswordPage";
 
 // Admin Pages
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUserPage from "../pages/admin/AdminUserPage";
 
 // Shop Owner (Normal User) Pages
-import UserProfilePage from "../pages/UserProfilePage";
-import CategoriesPage from "../pages/CategoriesPage";
-import SuppliersPage from "../pages/SuppliersPage";
-import SupplierDetailPage from "../pages/SupplierDetailPage";
-import ProductsPage from "../pages/ProductsPage";
-import ProductDetailPage from "../pages/ProductDetailPage";
-import PurchasesPage from "../pages/PurchasesPage";
-import CreatePurchasePage from "../pages/CreatePurchasePage";
-import EditPurchasePage from "../pages/EditPurchasePage";
-import PurchaseDetailPage from "../pages/PurchaseDetailPage";
-import SalesPage from "../pages/SalesPage";
-import SaleDetailPage from "../pages/SaleDetailPage";
-import PointOfSalePage from "../pages/PointOfSalePage";
-import StockPage from "../pages/StockPage";
-import StockHistoryPage from "../pages/StockHistoryPage";
+import Homepage from "../pages/dashboard/HomePage";
+import UserProfilePage from "../pages/user/UserProfilePage";
+import CategoriesPage from "../pages/category/CategoriesPage";
+import SuppliersPage from "../pages/supplier/SuppliersPage";
+import SupplierDetailPage from "../pages/supplier/SupplierDetailPage";
+import ProductsPage from "../pages/product/ProductsPage";
+import ProductDetailPage from "../pages/product/ProductDetailPage";
+import PurchasesPage from "../pages/purchase/PurchasesPage";
+import CreatePurchasePage from "../pages/purchase/CreatePurchasePage";
+import EditPurchasePage from "../pages/purchase/EditPurchasePage";
+import PurchaseDetailPage from "../pages/purchase/PurchaseDetailPage";
+import SalesPage from "../pages/sale/SalesPage";
+import SaleDetailPage from "../pages/sale/SaleDetailPage";
+import PointOfSalePage from "../pages/sale/PointOfSalePage";
+import StockPage from "../pages/stock/StockPage";
+import StockHistoryPage from "../pages/stock/StockHistoryPage";
 
 export default function AppRouter() {
   const { loading } = useContext(AuthContext);
@@ -59,6 +62,9 @@ export default function AppRouter() {
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/verify-otp" element={<VerifyOtpPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
           </Route>
         </Route>
 
