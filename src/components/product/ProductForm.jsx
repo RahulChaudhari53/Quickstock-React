@@ -6,45 +6,37 @@ import { Button } from "@/components/ui/button";
 
 const FormField = ({ id, label, error, touched, ...props }) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+    <label
+      htmlFor={id}
+      className="block text-sm font-medium text-gray-300 mb-1"
+    >
       {label}
     </label>
     <input
       id={id}
       {...props}
-      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
     />
-    {touched && error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+    {touched && error && <p className="mt-2 text-red-400 text-sm">{error}</p>}
   </div>
 );
 
 const SelectField = ({ id, label, error, touched, children, ...props }) => (
   <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+    <label
+      htmlFor={id}
+      className="block text-sm font-medium text-gray-300 mb-1"
+    >
       {label}
     </label>
     <select
       id={id}
       {...props}
-      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
     >
       {children}
     </select>
-    {touched && error && <p className="mt-2 text-sm text-red-600">{error}</p>}
-  </div>
-);
-
-const TextareaField = ({ id, label, error, touched, ...props }) => (
-  <div>
-    <label htmlFor={id} className="block text-sm font-medium text-gray-700">
-      {label}
-    </label>
-    <textarea
-      id={id}
-      {...props}
-      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-    />
-    {touched && error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+    {touched && error && <p className="mt-2 text-red-400 text-sm">{error}</p>}
   </div>
 );
 
@@ -130,174 +122,146 @@ export default function ProductForm({
   });
 
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-      className="space-y-8 divide-y divide-gray-200"
-    >
-      <div className="space-y-6 pt-2">
-        <div>
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Product Information
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Enter the core details of the product.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <FormField
-              id="name"
-              label="Product Name"
-              {...formik.getFieldProps("name")}
-              error={formik.errors.name}
-              touched={formik.touched.name}
-            />
-          </div>
-          <div className="sm:col-span-3">
-            <FormField
-              id="sku"
-              label="SKU (Stock Keeping Unit)"
-              {...formik.getFieldProps("sku")}
-              error={formik.errors.sku}
-              touched={formik.touched.sku}
-            />
-          </div>
-          <div className="sm:col-span-3">
-            <SelectField
-              id="category"
-              label="Category"
-              {...formik.getFieldProps("category")}
-              error={formik.errors.category}
-              touched={formik.touched.category}
-            >
-              <option value="">Select a Category</option>
-              {categories.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.name}
-                </option>
-              ))}
-            </SelectField>
-          </div>
-          <div className="sm:col-span-3">
-            <SelectField
-              id="supplier"
-              label="Supplier"
-              {...formik.getFieldProps("supplier")}
-              error={formik.errors.supplier}
-              touched={formik.touched.supplier}
-            >
-              <option value="">Select a Supplier</option>
-              {suppliers.map((sup) => (
-                <option key={sup._id} value={sup._id}>
-                  {sup.name}
-                </option>
-              ))}
-            </SelectField>
-          </div>
-          <div className="sm:col-span-6">
-            <TextareaField
-              id="description"
-              label="Description (Optional)"
-              rows={3}
-              {...formik.getFieldProps("description")}
-              error={formik.errors.description}
-              touched={formik.touched.description}
-            />
-          </div>
-        </div>
+    <form onSubmit={formik.handleSubmit} className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField
+          id="name"
+          label="Product Name"
+          {...formik.getFieldProps("name")}
+          error={formik.errors.name}
+          touched={formik.touched.name}
+        />
+        <FormField
+          id="sku"
+          label="SKU (Stock Keeping Unit)"
+          {...formik.getFieldProps("sku")}
+          error={formik.errors.sku}
+          touched={formik.touched.sku}
+        />
       </div>
 
-      <div className="space-y-6 pt-8">
-        <div>
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Pricing & Inventory
-          </h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Set the pricing and stock management rules.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-          <div className="sm:col-span-3">
-            <FormField
-              id="purchasePrice"
-              label="Purchase Price"
-              type="number"
-              step="0.01"
-              {...formik.getFieldProps("purchasePrice")}
-              error={formik.errors.purchasePrice}
-              touched={formik.touched.purchasePrice}
-            />
-          </div>
-          <div className="sm:col-span-3">
-            <FormField
-              id="sellingPrice"
-              label="Selling Price"
-              type="number"
-              step="0.01"
-              {...formik.getFieldProps("sellingPrice")}
-              error={formik.errors.sellingPrice}
-              touched={formik.touched.sellingPrice}
-            />
-          </div>
-          <div className="sm:col-span-2">
-            <SelectField
-              id="unit"
-              label="Unit of Measure"
-              {...formik.getFieldProps("unit")}
-              error={formik.errors.unit}
-              touched={formik.touched.unit}
-            >
-              {unitOptions.map((unit) => (
-                <option key={unit} value={unit}>
-                  {unit}
-                </option>
-              ))}
-            </SelectField>
-          </div>
-          <div className="sm:col-span-2">
-            <FormField
-              id="minStockLevel"
-              label="Min Stock Level"
-              type="number"
-              {...formik.getFieldProps("minStockLevel")}
-              error={formik.errors.minStockLevel}
-              touched={formik.touched.minStockLevel}
-            />
-          </div>
-          {!isEditMode && (
-            <div className="sm:col-span-2">
-              <FormField
-                id="initialStock"
-                label="Initial Stock"
-                type="number"
-                {...formik.getFieldProps("initialStock")}
-                error={formik.errors.initialStock}
-                touched={formik.touched.initialStock}
-              />
-            </div>
-          )}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <SelectField
+          id="category"
+          label="Category"
+          {...formik.getFieldProps("category")}
+          error={formik.errors.category}
+          touched={formik.touched.category}
+        >
+          <option value="">Select a Category</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
+        </SelectField>
+        <SelectField
+          id="supplier"
+          label="Supplier"
+          {...formik.getFieldProps("supplier")}
+          error={formik.errors.supplier}
+          touched={formik.touched.supplier}
+        >
+          <option value="">Select a Supplier</option>
+          {suppliers.map((sup) => (
+            <option key={sup._id} value={sup._id}>
+              {sup.name}
+            </option>
+          ))}
+        </SelectField>
       </div>
 
-      <div className="pt-5">
-        <div className="flex justify-end gap-3">
-          <Button type="button" onClick={onCancel} variant="outline">
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            disabled={isPending}
-            className="bg-gray-800 hover:bg-gray-700 text-white"
-          >
-            {isPending
-              ? isEditMode
-                ? "Saving..."
-                : "Creating..."
-              : isEditMode
-              ? "Save Changes"
-              : "Create Product"}
-          </Button>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <SelectField
+          id="unit"
+          label="Unit of Measure"
+          {...formik.getFieldProps("unit")}
+          error={formik.errors.unit}
+          touched={formik.touched.unit}
+        >
+          {unitOptions.map((unit) => (
+            <option key={unit} value={unit}>
+              {unit}
+            </option>
+          ))}
+        </SelectField>
+        <FormField
+          id="minStockLevel"
+          label="Minimum Stock Level"
+          type="number"
+          {...formik.getFieldProps("minStockLevel")}
+          error={formik.errors.minStockLevel}
+          touched={formik.touched.minStockLevel}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormField
+          id="purchasePrice"
+          label="Purchase Price"
+          type="number"
+          {...formik.getFieldProps("purchasePrice")}
+          error={formik.errors.purchasePrice}
+          touched={formik.touched.purchasePrice}
+        />
+        <FormField
+          id="sellingPrice"
+          label="Selling Price"
+          type="number"
+          {...formik.getFieldProps("sellingPrice")}
+          error={formik.errors.sellingPrice}
+          touched={formik.touched.sellingPrice}
+        />
+      </div>
+
+      <div>
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-gray-300 mb-1"
+        >
+          Description (Optional)
+        </label>
+        <textarea
+          id="description"
+          rows={3}
+          {...formik.getFieldProps("description")}
+          className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md"
+        />
+      </div>
+
+      {!isEditMode && (
+        <FormField
+          id="initialStock"
+          label="Initial Stock Quantity"
+          type="number"
+          {...formik.getFieldProps("initialStock")}
+          error={formik.errors.initialStock}
+          touched={formik.touched.initialStock}
+        />
+      )}
+
+      <div className="flex justify-end gap-4 pt-4">
+        <Button
+          type="button"
+          onClick={onCancel}
+          variant="outline"
+          className="bg-gray-700 text-white hover:bg-gray-600 border-gray-600"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="bg-emerald-600 hover:bg-emerald-700 text-white"
+        >
+          {isPending
+            ? isEditMode
+              ? "Saving..."
+              : "Creating..."
+            : isEditMode
+            ? "Save Changes"
+            : "Create Product"}
+        </Button>
       </div>
     </form>
   );
