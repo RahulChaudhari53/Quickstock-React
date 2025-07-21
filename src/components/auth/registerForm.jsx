@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRegisterUser } from "../../hooks/useRegisterUser";
+import { useRegisterUser } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { User, AtSign, Phone, Lock, Eye, EyeOff } from "lucide-react";
 
