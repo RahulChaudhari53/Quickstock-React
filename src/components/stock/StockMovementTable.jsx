@@ -94,7 +94,7 @@ export default function StockMovementTable({ history }) {
                   {movement.notes || "No notes"}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
-                  {movement.movedBy || "N/A"}
+                  {movement.movedBy?.name || "N/A"}
                 </td>
               </tr>
             );
