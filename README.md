@@ -70,3 +70,8 @@ VITE_API_BASE_URL="http://localhost:5050/api"
 ```bash
 npm start
 ```
+
+---
+
+## Author
+Rahul Chaudhari
