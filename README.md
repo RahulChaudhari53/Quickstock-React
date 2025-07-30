@@ -6,7 +6,7 @@ This repository contains the frontend application for Quickstock, a comprehensiv
 
 ## Features
 
-* **Admin Role:** Primarily responsible for **User Management**. This includes adding, updating, and deactivating user accounts.
+* **Admin Role:** Primarily responsible for **User Management**. This includes maknig user admin.
 * **User Role:** Access to core inventory management functionalities, including **Category Management, Product Management, Purchase Management, Sales Tracking, Stock Overview, and Supplier Management**.
 
 ---
@@ -43,7 +43,6 @@ We are continuously working to enhance Quickstock with new features and improvem
 * **Advanced notification system:** Implement comprehensive notifications for stock alerts, order updates, and more.
 * **Advanced analytics:** Provide deeper insights into sales trends, inventory performance, and user activity.
 * **UI Enhancement:** Ongoing improvements to the user interface for better aesthetics and usability.
-* ... (Add any other specific planned features here)
 
 ---
 
@@ -54,7 +53,6 @@ During development, we addressed several key challenges:
 * **State Management:** Effectively managing complex application state across various components and features, particularly with data fetching and updates.
 * **Responsive Design:** Ensuring the application is fully responsive and provides an optimal experience across different devices and screen sizes.
 * **API Integration:** Handling various API endpoints, authentication (JWT), and error handling for seamless communication with the backend.
-* ... (Add any other specific challenges encountered here)
 
 ---
 
@@ -75,3 +73,8 @@ npm start
 
 ## Author
 Rahul Chaudhari
+
+---
+
+## Appendix
+
