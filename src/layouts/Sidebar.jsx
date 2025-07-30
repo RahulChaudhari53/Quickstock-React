@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/AuthProvider";
-import { useSidebar } from "../auth/SidebarContext"; 
+import { useSidebar } from "../auth/SidebarContext";
 import {
   LayoutDashboard,
   Boxes,
@@ -13,6 +13,8 @@ import {
   User,
   CreditCard,
 } from "lucide-react";
+
+import QuickStockLogo from "../assets/quickstock-logo.svg";
 
 const NavItem = ({ to, icon, children }) => {
   const { closeSidebar } = useSidebar();
@@ -48,8 +50,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* --- BACKDROP OVERLAY --- */}
-      {/* Appears on mobile when the sidebar is open, and closes it on click */}
       <div
         className={`fixed inset-0 z-20 bg-black bg-opacity-40 transition-opacity md:hidden ${
           isSidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -65,8 +65,12 @@ export default function Sidebar() {
       >
         <div className="flex flex-col flex-grow p-4">
           <div className="flex items-center gap-3 px-3 py-2 mb-6">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800 text-white">
-              <Package size={24} />
+            <div className="flex h-10 w-10 items-center justify-center">
+              <img
+                src={QuickStockLogo}
+                alt="App icon"
+                className="mx-auto h-20 w-20"
+              />
             </div>
             <span className="text-xl font-bold text-gray-800">QuickStock</span>
           </div>

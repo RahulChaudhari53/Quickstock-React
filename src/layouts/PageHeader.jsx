@@ -24,13 +24,13 @@ export default function PageHeader({ title, className = "" }) {
       </div>
 
       {/* --- Right Section: Children (Action Buttons) & Icons --- */}
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <div className="flex items-center border border-yellow-400 rounded-lg shadow-md">
           <Button variant="ghost" size="icon">
             <Bell size={20} className="text-gray-600" />
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
