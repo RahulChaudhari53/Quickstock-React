@@ -64,3 +64,9 @@ To run this project, you need to set up the following environment variable in a 
 
 ```dotenv
 VITE_API_BASE_URL="http://localhost:5050/api"
+```
+
+## Runnign the Application
+```bash
+npm start
+```
