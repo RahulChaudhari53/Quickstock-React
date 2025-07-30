@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 // Layout and Authentication
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
+import AdminLayout from "../layouts/AdminLayout";
 import DashboardLayout from "../layouts/DashboardLayout";
 import { AuthContext } from "../auth/AuthProvider";
 import GuestRoute from "./GuestRoute";
@@ -107,12 +108,31 @@ export default function AppRouter() {
 
         {/* --- Admin Protected Routes (Separate Layout) --- */}
         <Route element={<AdminRoute />}>
-          <Route path="/admin/users" element={<AdminDashboard />} />
-          <Route path="/admin/users/:id" element={<AdminUserPage />} />
-          <Route
-            path="/admin"
-            element={<Navigate to="/admin/users" replace />}
-          />
+          <Route element={<AdminLayout />}>
+            <Route path="/admin/users" element={<AdminDashboard />} />
+            <Route path="/admin/users/:id" element={<AdminUserPage />} />
+
+            <Route
+              path="/admin"
+              element={<Navigate to="/admin/users" replace />}
+            />
+
+            <Route
+              path="/admin/profile"
+              element={<div className="text-white">Admin Profile Page</div>}
+            />
+
+            <Route
+              path="/admin/products"
+              element={
+                <div className="text-white">Product Management Page</div>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={<div className="text-white">Settings Page</div>}
+            />
+          </Route>
         </Route>
 
         {/* --- Global 404 Fallback --- */}

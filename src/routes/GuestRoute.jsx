@@ -17,7 +17,10 @@ export default function GuestRoute() {
   }
 
   if (user) {
-    return <Navigate to="/" replace />;
+    if (user.role === "admin") {
+      return <Navigate to="/admin/users" replace />;
+    }
+    return <Navigate to="/dashboard" replace />;
   }
 
   return <Outlet />;

@@ -17,6 +17,10 @@ export default function NormalUserRoute() {
     return <Navigate to="/login" replace />;
   }
 
+  if (user.role === "admin") {
+    return <Navigate to="/admin/users" replace />;
+  }
+
   if (user.role !== "shop_owner") {
     return <Navigate to="/" replace />;
   }
