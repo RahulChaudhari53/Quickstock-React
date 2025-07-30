@@ -1,5 +1,6 @@
 // auth/AuthProvider.jsx
 import { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
 export const AuthContext = createContext();
 
@@ -15,19 +16,35 @@ const AuthContextProvider = ({ children }) => {
     setLoading(false);
   };
 
-  const logout = () => {
-    setLoading(true);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    setUser(null);
-    setLoading(false);
+  const logout = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      if (token) {
+        await axios.post(
+          "/api/users/logout",
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Backend logout failed, but proceeding with client-side logout.",
+        error
+      );
+    } finally {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      setUser(null);
+    }
   };
 
   useEffect(() => {
     setLoading(true);
     const token = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
-    console.log("Auth Check - Token:", token, "Stored User:", storedUser); // debugging
 
     if (token && storedUser) {
       try {
@@ -36,8 +53,6 @@ const AuthContextProvider = ({ children }) => {
         console.error("Failed to parse stored user data:", e);
         logout();
       }
-    } else {
-      logout();
     }
     setLoading(false);
   }, []);
