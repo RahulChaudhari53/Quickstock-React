@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import PurchaseForm from "../../components/purchase/PurchaseForm";
 import { useCreatePurchase } from "../../hooks/usePurchase";
-import { Button } from "../../components/ui/Button";
+// import { Button } from "../../components/ui/Button";
+import { Button } from "../../components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 export default function CreatePurchasePage() {
