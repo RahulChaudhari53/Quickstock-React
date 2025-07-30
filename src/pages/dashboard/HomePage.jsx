@@ -83,7 +83,8 @@ export default function HomePage() {
     setPageTitle("Dashboard");
   }, [setPageTitle]);
 
-  const [filters, setFilters] = useState({}); // For future date range filtering
+  // eslint-disable-next-line no-unused-vars
+  const [filters, setFilters] = useState({}); // future date range filtering
   const { data: overviewData, isLoading } = useDashboardOverview(filters);
   const data = overviewData?.data || {};
 
@@ -118,7 +119,7 @@ export default function HomePage() {
           value={data.totalSalesOrders?.toLocaleString() || "0"}
           subtext="In the last 30 days"
           icon={<ShoppingCart size={22} />}
-          to="/user/sales" // Placeholder, will need Sales page
+          to="/user/sales"
           isLoading={isLoading}
         />
         <StatCard
